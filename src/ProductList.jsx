@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import './ProductList.css';
-import { useDispatch } from 'react-redux';
-import { addItem } from '../CartSlice';   // Adjust path if needed
+import { useDispatch, useSelector } from 'react-redux';
+import { addItem } from '../CartSlice';
 
 function ProductList() {
 
   const dispatch = useDispatch();
+  const CartItems = useSelector((state) => state.cart.items);
+
   const [addedToCart, setAddedToCart] = useState({});
 
   const plantsArray = [
@@ -45,20 +47,29 @@ function ProductList() {
     }
   ];
 
+  // ✅ Add to Cart
   const handleAddToCart = (product) => {
 
-    // Dispatch plant details to Redux store
     dispatch(addItem(product));
 
-    // Mark this product as added locally
     setAddedToCart((prevState) => ({
       ...prevState,
       [product.name]: true,
     }));
   };
 
+  // ✅ Calculate total quantity
+  const calculateTotalQuantity = () => {
+    return CartItems
+      ? CartItems.reduce((total, item) => total + item.quantity, 0)
+      : 0;
+  };
+
   return (
     <div className="product-grid">
+
+      {/* ✅ Display Total Quantity */}
+      <h3>Total Items in Cart: {calculateTotalQuantity()}</h3>
 
       {plantsArray.map((category, index) => (
         <div key={index}>

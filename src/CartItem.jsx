@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { removeItem, updateQuantity } from './CartSlice';
+import { addItem, removeItem, updateQuantity } from './CartSlice';
 import './CartItem.css';
 
 const CartItem = ({ onContinueShopping }) => {
@@ -26,12 +26,9 @@ const CartItem = ({ onContinueShopping }) => {
     onContinueShopping(e);
   };
 
-  // ✅ Increment Quantity
+  // ✅ Increment Quantity (Using addItem as required)
   const handleIncrement = (item) => {
-    dispatch(updateQuantity({
-      name: item.name,
-      quantity: item.quantity + 1
-    }));
+    dispatch(addItem(item));
   };
 
   // ✅ Decrement Quantity
@@ -46,7 +43,7 @@ const CartItem = ({ onContinueShopping }) => {
     }
   };
 
-  // ✅ Remove Item
+  // ✅ Remove Item Completely
   const handleRemove = (item) => {
     dispatch(removeItem(item.name));
   };
@@ -59,6 +56,7 @@ const CartItem = ({ onContinueShopping }) => {
 
   return (
     <div className="cart-container">
+
       <h2 style={{ color: 'black' }}>
         Total Cart Amount: ${calculateTotalAmount()}
       </h2>
@@ -66,6 +64,7 @@ const CartItem = ({ onContinueShopping }) => {
       <div>
         {cart.map(item => (
           <div className="cart-item" key={item.name}>
+
             <img
               className="cart-item-image"
               src={item.image}
@@ -73,10 +72,17 @@ const CartItem = ({ onContinueShopping }) => {
             />
 
             <div className="cart-item-details">
-              <div className="cart-item-name">{item.name}</div>
-              <div className="cart-item-cost">{item.cost}</div>
+
+              <div className="cart-item-name">
+                {item.name}
+              </div>
+
+              <div className="cart-item-cost">
+                {item.cost}
+              </div>
 
               <div className="cart-item-quantity">
+
                 <button
                   className="cart-item-button cart-item-button-dec"
                   onClick={() => handleDecrement(item)}
@@ -94,6 +100,7 @@ const CartItem = ({ onContinueShopping }) => {
                 >
                   +
                 </button>
+
               </div>
 
               <div className="cart-item-total">
@@ -106,6 +113,7 @@ const CartItem = ({ onContinueShopping }) => {
               >
                 Delete
               </button>
+
             </div>
           </div>
         ))}
@@ -119,13 +127,16 @@ const CartItem = ({ onContinueShopping }) => {
       </div>
 
       <div className="continue_shopping_btn">
+
         <button
           className="get-started-button"
           onClick={(e) => handleContinueShopping(e)}
         >
           Continue Shopping
         </button>
+
         <br />
+
         <button
           className="get-started-button1"
           onClick={(e) => {
@@ -135,7 +146,9 @@ const CartItem = ({ onContinueShopping }) => {
         >
           Checkout
         </button>
+
       </div>
+
     </div>
   );
 };
