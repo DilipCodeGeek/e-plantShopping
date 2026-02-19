@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './ProductList.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { addItem } from '../CartSlice';
+import { addItem } from './CartSlice';   // ✅ CORRECT IMPORT
 
 function ProductList() {
 
@@ -47,9 +47,7 @@ function ProductList() {
     }
   ];
 
-  // ✅ Add to Cart
   const handleAddToCart = (product) => {
-
     dispatch(addItem(product));
 
     setAddedToCart((prevState) => ({
@@ -58,7 +56,6 @@ function ProductList() {
     }));
   };
 
-  // ✅ Calculate total quantity
   const calculateTotalQuantity = () => {
     return CartItems
       ? CartItems.reduce((total, item) => total + item.quantity, 0)
@@ -68,7 +65,6 @@ function ProductList() {
   return (
     <div className="product-grid">
 
-      {/* ✅ Display Total Quantity */}
       <h3>Total Items in Cart: {calculateTotalQuantity()}</h3>
 
       {plantsArray.map((category, index) => (
